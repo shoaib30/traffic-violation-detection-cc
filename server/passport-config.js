@@ -2,7 +2,8 @@ var passport = require('passport');
 var CloudFoundryStrategy = require('passport-predix-oauth').Strategy;
 var OAuth2RefreshTokenStrategy = require('passport-oauth2-middleware').Strategy;
 var cfStrategy;
-
+var LocalStratergy = require('passport-local').Strategy
+var trafficNode = require('./node-config.js')
 /*********************************************************************
 				PASSPORT PREDIX STRATEGY SETUP
 **********************************************************************/
@@ -19,6 +20,24 @@ function configurePassportStrategy(predixConfig) {
 											//user with stored OAuth access token
 											//and performs a token refresh if needed
 
+	var nodeStratergy = new LocalStratergy({
+		usernameField : 'username',
+		passwordField : 'password'
+	},
+	function(username, password, done){
+		trafficNode.verifyUsernamePassword(username, password, function(err, user){
+			if(err){
+				return done(err)
+			}
+			if(!user){
+				return done(null, false)
+			}
+			console.log(JSON.stringify(user))
+			return done(null, user)
+		})
+	})									
+
+	passport.use("trafficNode", nodeStratergy)
 	// Passport session setup.
 	//   To support persistent login sessions, Passport needs to be able to
 	//   serialize users into and deserialize users out of the session.  Typically,

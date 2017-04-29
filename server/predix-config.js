@@ -36,6 +36,7 @@ if(node_env === 'development') {
 	if(uaaService) {
     settings.uaaURL = uaaService[0].credentials.uri;
 		settings.tokenURL = uaaService[0].credentials.uri;
+		console.log(uaaService)
 	}
 	if(assetService) {
 		settings.assetURL = assetService[0].credentials.uri + '/' + process.env.assetMachine;
@@ -53,7 +54,7 @@ if(node_env === 'development') {
 	settings.base64ClientCredential = process.env.base64ClientCredential;
 	settings.clientId = process.env.clientId;
 }
-// console.log('config settings: ' + JSON.stringify(settings));
+ console.log('config settings: ' + JSON.stringify(settings));
 
 // This vcap object is used by the proxy module.
 settings.buildVcapObjectFromLocalConfig = function(config) {

@@ -119,13 +119,18 @@ if (!uaaIsConfigured) { // no restrictions
       proxy.customProxyMiddleware('/windy', windServiceURL)
     );
   }
-
   //Use this route to make the entire app secure.  This forces login for any path in the entire app.
+  app.use('/api/node/*', passport.authenticate('trafficNode', {
+      noredirect: true
+    }),
+    proxy.customProxyMiddleware("/api/node", "https://jsonplaceholder.typicode.com")
+  )
   app.use('/', passport.authenticate('main', {
     noredirect: false //Don't redirect a user to the authentication page, just show an error
     }),
     express.static(path.join(__dirname, process.env['base-dir'] ? process.env['base-dir'] : '../public'))
   );
+  
 
   //Or you can follow this pattern to create secure routes,
   // if only some portions of the app are secure.
@@ -138,7 +143,11 @@ if (!uaaIsConfigured) { // no restrictions
   });
 
 }
-
+// app.get('/tests/*',
+//       // if calling a secure microservice, you can use this middleware to add a client token.
+//       // proxy.addClientTokenMiddleware,
+//       proxy.customProxyMiddleware('/tests', "https://jsonplaceholder.typicode.com")
+//     );
 //logout route
 app.get('/logout', function(req, res) {
 	req.session.destroy();
@@ -146,7 +155,7 @@ app.get('/logout', function(req, res) {
   passportConfig.reset(); //reset auth tokens
   res.redirect(config.uaaURL + '/logout?redirect=' + config.appURL);
 });
-
+// app.get('/hi', proxy.customProxyMiddleware('/hi', "https://jsonplaceholder.typicode.com"))
 app.get('/favicon.ico', function (req, res) {
 	res.send('favicon.ico');
 });
