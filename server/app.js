@@ -122,8 +122,11 @@ if (!uaaIsConfigured) { // no restrictions
   //Use this route to make the entire app secure.  This forces login for any path in the entire app.
   app.use('/api/node/*', passport.authenticate('trafficNode', {
       noredirect: true
-    }),
-    proxy.customProxyMiddleware("/api/node", "https://jsonplaceholder.typicode.com")
+    }),function(req, res, next){
+      console.log("In rev proxy")
+      next();
+    },
+    proxy.customProxyMiddleware("/api/node", "https://traffic-violation-detection-be.run.aws-usw02-pr.ice.predix.io")
   )
   app.use('/', passport.authenticate('main', {
     noredirect: false //Don't redirect a user to the authentication page, just show an error
@@ -143,11 +146,6 @@ if (!uaaIsConfigured) { // no restrictions
   });
 
 }
-// app.get('/tests/*',
-//       // if calling a secure microservice, you can use this middleware to add a client token.
-//       // proxy.addClientTokenMiddleware,
-//       proxy.customProxyMiddleware('/tests', "https://jsonplaceholder.typicode.com")
-//     );
 //logout route
 app.get('/logout', function(req, res) {
 	req.session.destroy();
@@ -155,7 +153,6 @@ app.get('/logout', function(req, res) {
   passportConfig.reset(); //reset auth tokens
   res.redirect(config.uaaURL + '/logout?redirect=' + config.appURL);
 });
-// app.get('/hi', proxy.customProxyMiddleware('/hi', "https://jsonplaceholder.typicode.com"))
 app.get('/favicon.ico', function (req, res) {
 	res.send('favicon.ico');
 });

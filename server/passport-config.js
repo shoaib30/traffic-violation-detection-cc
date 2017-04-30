@@ -32,7 +32,7 @@ function configurePassportStrategy(predixConfig) {
 			if(!user){
 				return done(null, false)
 			}
-			console.log(JSON.stringify(user))
+			//console.log(JSON.stringify(user))
 			return done(null, user)
 		})
 	})									

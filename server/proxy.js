@@ -167,7 +167,7 @@ var setProxyRoutes = function() {
 	var vcapString = process.env.VCAP_SERVICES;
 	var serviceKeys = [];
 	vcapServices = vcapString ? JSON.parse(vcapString) : vcapServices;
-	console.log('vcaps: ' + JSON.stringify(vcapServices));
+	//console.log('vcaps: ' + JSON.stringify(vcapServices));
 
 	serviceKeys = Object.keys(vcapServices);
 	serviceKeys.forEach(function(key) {
