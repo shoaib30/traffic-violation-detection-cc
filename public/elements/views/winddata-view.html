@@ -1,76 +1,66 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/px-card/px-card.html">
-<link rel="import" href="../../bower_components/px-vis-timeseries/px-vis-timeseries.html">
-<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-
+<link rel="import" href="../../bower_components/px-card/px-card.html" />
+<link rel="import" href="../../bower_components/px-view-header/px-view-header.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <dom-module id="winddata-view">
+  <style>
+    #subscript:{
+      font-size:10px;
+    },
+    p {
+    text-indent: 50px;
+}
+  </style>
   <template>
-
-    <px-card header-text="Wind Data">
-
-      <px-vis-timeseries
-        width="800"
-        height="300"
-        prevent-resize="true"
-        enable-tooltip="true"
-        register-location="none"
-        include-all-series
-        y-axis-config='{"title": "Hz"}'
-        series-config='{"cruise-vibration": {
-          "type":"line",
-          "x": "x",
-          "y": "y",
-          "yAxisUnit": "Hz"
-        }}'
-        selection-type= "xy"
-        chart-data={{tsChartData}}
-      </px-vis-timeseries>
-      <!-- Choose one of these iron-ajax elements to load data from the source of your choice.
-        First option loads sample data from a json file in the server/sample-data directory. -->
-      <iron-ajax url="/api/time-series/delta-egt/1" id="tsQueryElement" last-response="{{rawTsData}}" auto></iron-ajax>
-
-      <!-- Second option loads data from a custom wind data microservice.  -->
-      <!-- <iron-ajax url="/windy/services/windservices/yearly_data/sensor_id/Compressor-2015:CompressionRatio?order=asc&starttime=1y-ago" id="tsQueryElement" last-response="{{rawTsData}}" auto></iron-ajax> -->
-
-      <!-- Third option loads data from Predix Time Series directly.
-        Note this is a POST request, and the time series tag name is hardcoded below. -->
-      <!-- <iron-ajax url="/predix-api/predix-timeseries/v1/datapoints" id="tsQueryElement" body="{{timeseriesQuery}}" last-response="{{rawTsData}}" method="POST" content-type="application/json" auto></iron-ajax> -->
+    <px-view-header title="Autonomous Traffic Management for detection of Violation" style="display: block; margin-bottom: 6px;"></px-view-header>
+    <px-card icon="fa-calendar-o" header-text="Abstract">
+      <p>Traffic is the biggest problem faced in indian cities today. The ever increasing number of vehicles on the road makes it
+      very tough to control manually. Road traffic is growing at an alarming rate of 22% per annum according to Hemanth.
+      M Kamplimath. With this kind of growth and the current methodologies of traffic management in India, it would be nearly
+      impossible to have an efficient transport management system.</p> 
+      <p>      The number of violations has gone up by 200% in the past
+      10 years. And is expected to further increase. With this increase in violations of traffic rules road safety becomes
+      a major concern. Due to the lack of an effective traffic law enforcement body, drivers tend to break rules to reach
+      their destination quicker. Thus paving the way for an automated system to not only detect a violation but also file
+      a penalty for the neglect of traffic rules. Such a system would in turn make drivers cautious of their driving.</p>
+    </px-card>
+    <px-card header-text="Team" icon="fa:fa-users">
+      <h3><b>Guide</b></h3>
+      <paper-icon-item>
+        <iron-icon icon="fa:fa-user" item-icon></iron-icon>
+        <b>Dr. Mydhili K Nair </b>- Professor, Information Science & Engineering, Ramaiah Institute of Technology
+      </paper-icon-item>
+      <h3><b>Memebers</b></h3>
+      <iron-list items="[[members]]">
+        <template>
+          <paper-icon-item >
+            <iron-icon icon="[[item.icon]]" item-icon></iron-icon>
+            <b>[[item.name]]</b> - [[item.USN]]
+          </paper-icon-item>
+        </template>
+      </iron-list>
     </px-card>
   </template>
   <script>
     Polymer({
       is: 'winddata-view',
       properties: {
-        tsChartData: {
-          type: Array
-        },
-        rawTsData: {
+          members: {
           type: Object,
-          observer: '_formatDataForChart'
+          value: [
+            {"name": "ABHIGNA REDDY", "USN" : "1MS13IS072" , "icon": "fa:fa-female"},
+            {"name": "KAUSTUBH DESHPANDE", "USN" : "1MS13IS043" , "icon": "fa:fa-male"},
+            {"name": "PREETHI RAO", "USN" : "1MS13IS076" , "icon": "fa:fa-female"},
+            {"name": "SHOAIB AHMED", "USN" : "1MS13IS101" , "icon": "fa:fa-male"}
+          ]
+        } 
         },
-        timeseriesQuery: {
-          type: Object,
-          value: function() {
-            return {
-              "start": "1y-ago",
-              "tags": [
-                {
-                  "name": "Compressor-2015:CompressionRatio"
-                }
-              ]
-            };
-          }
+        ready: function(){
+          console.log("Ready ")
         }
-      },
-
-      _formatDataForChart: function(raw) {
-        var series = [];
-        var datapoints = raw.tags[0].results[0].values || raw.tags[0].results[0].datapoints;
-        datapoints.forEach(function(point) {
-          series.push({x: point[0], y: point[1]});
-        });
-        this.tsChartData = series;
-      }
-    });
+      })
   </script>
 </dom-module>

@@ -24,7 +24,9 @@
 
     <header role="banner" class="flex flex--middle">
       <div class="viewport flex">
-        <h3 class="flex__item app-title"><ge-svg-logo class="u-mr--"></ge-svg-logo> Seed Application</h3>
+        <h3 class="flex__item app-title">
+          <!--<ge-svg-logo class="u-mr--"></ge-svg-logo>-->
+           Traffic Violation Detection Console</h3>
         <div class="flex__item">
           <div class="flex" style="text-align:right;">
             <h3 class="flex__item weight--normal logo">Powered by <predix-logo style="display:inline-block; width: 82px;" class="flex__item"></predix-logo></h3>
@@ -77,7 +79,7 @@
           <!-- /winddata route and view -->
           <app-route
             route="[[_route]]"
-            pattern="/winddata"
+            pattern="/aboutus"
             active="{{_winddataActive}}">
           </app-route>
           <px-view
@@ -121,7 +123,7 @@
           value: function() {
             return {
               version: '1.0',
-              name: 'Predix UI Seed',
+              name: 'Traffic Violation Detection System',
               session: {}
             }
           }
@@ -131,11 +133,11 @@
           type: Array,
           value: function() {
             return [{
-              "label": "Dashboards",
+              "label": "Dashboard",
               "path": "/dashboards",
               "icon": "fa-tachometer"
             }, {
-              "label": "Blank Page",
+              "label": "Violations",
               "path": "/blankpage",
               "icon": "fa-file"
             }
@@ -163,26 +165,27 @@
           type: Array,
           value: function() {
             return [{
-              "label": "Privacy",
-              "href": "#/dashboards",
-              "target": "_blank"
-            }, {
-              "label": "Terms",
-              "href": "#/dashboards",
-              "target": "_blank"
-            }, {
-              "label": "Contact",
-              "href": "#/dashboards",
-              "target": "_blank"
-            }, {
-              "label": "Accessibility",
-              "href": "#/dashboards",
-              "target": "_blank"
-            }, {
-              "label": "Cookies",
-              "href": "#/dashboards",
+              "label": "About Us",
+              "href": "#/aboutus",
               "target": "_blank"
             }
+            // , {
+            //   "label": "Terms",
+            //   "href": "#/dashboards",
+            //   "target": "_blank"
+            // }, {
+            //   "label": "Contact",
+            //   "href": "#/dashboards",
+            //   "target": "_blank"
+            // }, {
+            //   "label": "Accessibility",
+            //   "href": "#/dashboards",
+            //   "target": "_blank"
+            // }, {
+            //   "label": "Cookies",
+            //   "href": "#/dashboards",
+            //   "target": "_blank"
+            // }
           ]
           }
         },

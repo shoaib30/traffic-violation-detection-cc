@@ -1,12 +1,23 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/px-sample-cards/blank-card.html">
+<link rel="import" href="../../bower_components/px-card/px-card.html" />
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html" />
 <link rel="import" href="../../bower_components/px-view-header/px-view-header.html">
+<link rel="import" href="../../bower_components/px-data-table/px-data-table.html">
+<link rel="import" href="../../bower_components/px-theme/px-theme-styles.html">
+<style include="px-theme-styles" is="custom-style"></style>
 <dom-module id="blankpage-view">
   <template>
-    <px-view-header title="Blank Page" style="display: block; margin-bottom: 6px;"></px-view-header>
-    <blank-card id="myCard">
-      An example of a blank card without any content (except for this brief description).  Replace this with the actual content for your application.
-    </blank-card>
+    <px-view-header title="Violations" style="display: block; margin-bottom: 6px;"></px-view-header>
+    <px-card header-text="List of Violations">
+      <iron-ajax auto url="/getData/data/getViolations" on-response="_handleResponse" handle-as="json" last-response={{ajaxResponse}}
+        debounce-duration="300"></iron-ajax>
+      <template is="dom-repeat" items="[[violations]]">
+        [[item.numberPlate]]
+      </template>
+      <px-data-table table-data='{{ajaxResponse}}' language="en" striped="true" filterable="true" sortable="true" single-select="true"
+        show-column-chooser="true" include-all-columns="true">     
+      </px-data-table>
+    </px-card>
   </template>
   <script>
     Polymer({
@@ -14,6 +25,9 @@
       properties: {},
       ready: function() {
         console.log('blankpage-view ready()')
+      },
+      _handleResponse: function(event){
+        console.log("gt" +event.detail.response)
       }
     });
   </script>

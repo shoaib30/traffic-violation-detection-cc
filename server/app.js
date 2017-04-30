@@ -119,6 +119,9 @@ if (!uaaIsConfigured) { // no restrictions
       proxy.customProxyMiddleware('/windy', windServiceURL)
     );
   }
+  app.use('/getData/*', passport.authenticate('main', { noredirect: true}),
+    proxy.customProxyMiddleware("/getData", "https://traffic-violation-detection-be.run.aws-usw02-pr.ice.predix.io")
+  )
   //Use this route to make the entire app secure.  This forces login for any path in the entire app.
   app.use('/api/node/*', passport.authenticate('trafficNode', {
       noredirect: true
@@ -134,7 +137,7 @@ if (!uaaIsConfigured) { // no restrictions
     express.static(path.join(__dirname, process.env['base-dir'] ? process.env['base-dir'] : '../public'))
   );
   
-
+  
   //Or you can follow this pattern to create secure routes,
   // if only some portions of the app are secure.
   app.get('/secure', passport.authenticate('main', {
