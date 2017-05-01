@@ -39,7 +39,8 @@
     "px-vis-xy-chart": "^0.3.0",
     "px-view-header": "^0.2.0",
     "iron-list": "PolymerElements/iron-list#^1.4.5",
-    "paper-item": "PolymerElements/paper-item#^1.2.2"
+    "paper-item": "PolymerElements/paper-item#^1.2.2",
+    "google-chart": "GoogleWebComponents/google-chart#^1.1.2"
   },
   "devDependencies": {
     "px-forms-design": "^1.1.1",
